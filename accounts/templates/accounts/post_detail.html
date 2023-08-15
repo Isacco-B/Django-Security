@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+  <br>
+  <a href={% url 'account_logout' %}>Logout</a>
+  <hr>
+  <p>Title: {{post.title}}</p>
+  <p>Text: {{post.text}}</p>
+  <p>Writer: {{post.writer.email}}</p>
+  <p>Public?: {{post.public}}</p>
+  <hr>
+  {% if request.user.userprofile.user_type == 'Moderator' %}
+    {% if not post.public %}
+      <a href={% url 'accounts:mark-as-public' post.id %}>Mark as public</a>
+    {% endif %}
+  {% endif %}
+{% endblock content %}
+

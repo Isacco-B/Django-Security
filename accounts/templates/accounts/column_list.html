@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<h1>Columns List</h1>
+<a href={% url 'columns:create-column' %}>Create a column</a>
+<br>
+<br>
+<br>
+{% for column in columns %}
+  <a href={% url 'columns:column-detail' column.id %}>{{column.name}}</a>
+  <br>
+  <br>
+  <br>
+{% empty %}
+No Columns Add One
+{% endfor %}
+
+{% endblock content %}c

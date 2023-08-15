@@ -1,0 +1,39 @@
+{% block content %}
+<h1>{{column.name}}</h1>
+<a href={% url 'columns:column-list' %}>back to column</a>
+{% if not request.user.userprofile.user_type == "Reader" %}
+  <h3>Coordinator</h3>
+  {{ column.coordinator.email }}
+  <h3>Writers</h3>
+  {% for writer in column.writers.all %}
+    <p>{{writer.email}}</p>
+  {% endfor %}
+  <hr>
+  <h3>Moderators</h3>
+  {% for moderator in column.moderators.all %}
+    <p>{{moderator.email}}</p>
+  {% endfor %}
+{% endif %}
+
+{% if request.user.userprofile.user_type == "Reader" %}
+  {% if not subscribed %}
+    <form action="" method="post">
+      {% csrf_token %}
+      <button type="submit">Subscribe to this column</button>
+    </form>
+  {% else %}
+  <p>You Are Subscribed</p>
+  {% endif %}
+{% endif %}
+<br>
+<hr>
+<h3>Post</h3>
+{% for post in column.column_post.all %}
+  <a href={% url 'columns:post-detail' post.id %}>Detail</a>
+  <p>{{post.title}}</p>
+  <p>{{post.text}}</p>
+  <p>{{post.writer.email}}</p>
+  <hr>
+{% endfor %}
+{% endblock content %}
+
